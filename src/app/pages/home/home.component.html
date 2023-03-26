@@ -1,0 +1,186 @@
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<div class="layout-dashboard">
+
+    <div class="p-grid table-demo">
+
+        <div class="p-col-12">
+            <div class="card">
+                <h4>DAFTAR PEGAWAI</h4>
+
+                <p-table #dtc [value]="pegawai" [(selection)]="selectedPegawai" dataKey="id" selectionMode="single"
+                    [scrollable]="true" scrollDirection="both"
+                    styleClass="p-datatable-customers p-datatable-gridlines p-datatable-striped p-datatable-sm"
+                    scrollHeight="600px" [filterDelay]="0" [globalFilterFields]="['nama','nik','email','status']">
+                    <ng-template pTemplate="caption">
+                        <div class="table-header">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text"
+                                    (input)="dtc.filterGlobal($event.target.value, 'contains')"
+                                    placeholder="Cari data.." />
+                            </span>
+                            <p-button label="Tambah Pegawai" styleClass="p-button-success" (click)="showDialog()">
+                            </p-button>
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="nama">Nama
+                                <p-sortIcon field="nama"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="nik">NIK
+                                <p-sortIcon field="nik"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="email">Email
+                                <p-sortIcon field="email"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="alamat">Alamat
+                                <p-sortIcon field="alamat"></p-sortIcon>
+                            </th>
+                            <th style="width: 9rem" pSortableColumn="noHp">No Hp
+                                <p-sortIcon field="noHp"></p-sortIcon>
+                            </th>
+                            <th style="width: 8rem" pSortableColumn="penghasilan">Penghasilan
+                                <p-sortIcon field="penghasilan"></p-sortIcon>
+                            </th>
+                            <th style="width: 8rem" pSortableColumn="jenisKlaim">Jenis Klaim
+                                <p-sortIcon field="jenisKlaim"></p-sortIcon>
+                            </th>
+                            <th style="width: 7rem" pSortableColumn="status">Status
+                                <p-sortIcon field="status"></p-sortIcon>
+                            </th>
+                            <th>Aksi
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-pegawai>
+                        <tr [pSelectableRow]="pegawai">
+                            <td class="text-wrap">
+                                <span class="p-column-title">Nama</span>
+                                {{pegawai.nama}}
+                            </td>
+                            <td class="text-wrap">
+                                <span class="p-column-title">Nomor Identitas</span>
+                                {{pegawai.nomor_identitas}}
+                            </td>
+                            <td class="text-wrap">
+                                <span class="p-column-title">Telepon/Hp</span>
+                                {{pegawai.nomor_telepon}}
+                            <td class="text-wrap">
+                                <span class="p-column-title">Alamat</span>
+                                {{pegawai.alamat}}
+                            </td>
+                            <td style="width: 9rem" class="text-wrap">
+                                <span class="p-column-title">No Hp</span>
+                                {{pegawai.nomor_telepon}}
+                            </td>
+                            <td style="width: 8rem;" class="text-wrap">
+                                <span class="p-column-title">Gaji</span>
+                                Rp {{pegawai.gaji}}
+                            </td>
+                            <td style="width: 8rem" class="text-wrap">
+                                <span class="p-column-title">Jenis Kelamin</span>
+                                <span class="image-text"
+                                    style="margin-left: .5em;vertical-align: middle">{{pegawai.jenis_kelamin}}</span>
+                            </td>
+                            <td style="width: 7rem" class="text-wrap">
+                                <span class="p-column-title">Status</span>
+                                <span [class]="'customer-badge status-' + pegawai.status_pekerjaan">{{pegawai.status_pekerjaan}}</span>
+                            </td>
+                            <td>
+                                <p-button icon="pi pi-pencil" styleClass="p-button-primary p-mr-2" (onClick)="showDialog2(pegawai)"></p-button>
+
+                                <p-button icon="pi pi-trash" styleClass="p-button-danger" (onClick)="deletePegawai(pegawai)"></p-button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="8">belum ada yang mendaftar.</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<p-dialog header="Tambah Pegawai" [(visible)]="display" [responsive]="true" [modal]="true" [style]="{'width': '50%'}">
+    <div class="p-g p-fluid">
+        <div class="p-g-12">
+            <form>
+                <div class="p-grid form-group">
+                    <div class="p-grid-12 p-md-6">
+                        <label for="nama">Nama</label>
+                        <input pInputText id="nama" name="nama" [(ngModel)]="formPegawai.nama" type="text">
+                    </div>
+                    <div class="p-grid-12 p-md-6">
+                        <label for="nomor_identitas">Nomor Identitas</label>
+                        <input pInputText id="nomor_identitas" name="nomor_identitas"
+                            [(ngModel)]="formPegawai.nomor_identitas" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="">
+                        <label for="alamat">Alamat</label>
+                        <textarea pInputTextarea id="alamat" name="alamat" [(ngModel)]="formPegawai.alamat"></textarea>
+                    </div>
+                </div>
+                <div class="p-grid form-group">
+                    <div class="p-grid-12 p-md-6">
+                        <label for="nomor_telepon">Nomor Telepon</label>
+                        <input pInputText id="nomor_telepon" name="nomor_telepon" [(ngModel)]="formPegawai.nomor_telepon"
+                            type="text">
+                    </div>
+                    <div class="p-grid-12 p-md-6">
+                        <label for="tanggal_lahir">Tanggal Lahir</label>
+                        <p-calendar [showIcon]="true" dateFormat="dd/mm/yy" id="tanggal_lahir" name="tanggal_lahir"
+                            [(ngModel)]="formPegawai.tanggal_lahir"></p-calendar>
+                    </div>
+                </div>
+                <div class="p-grid form-group">
+                    <div class="p-grid-12 p-md-6">
+                        <label for="jenis_kelamin">Jenis Kelamin</label>
+                        <p-dropdown [options]="jenisKelaminOptions" placeholder="Pilih jenis kelamin" id="jenis_kelamin"
+                            name="jenis_kelamin" [(ngModel)]="formPegawai.jenis_kelamin"></p-dropdown>
+                    </div>
+                    <div class="p-grid-12 p-md-6">
+                        <label for="pendidikan">Pendidikan</label>
+                        <input pInputText id="pendidikan" name="pendidikan" [(ngModel)]="formPegawai.pendidikan"
+                            type="text">
+                    </div>
+                </div>
+                <div class="p-grid form-group">
+                    <div class="p-grid-12 p-md-6">
+                        <label for="jabatan">Jabatan</label>
+                        <input pInputText id="jabatan" name="jabatan" [(ngModel)]="formPegawai.jabatan" type="text">
+                    </div>
+                        <div class="p-grid-12 p-md-6">
+                            <label for="gaji">gaji</label>
+                            <input pInputText id="gaji" name="gaji" [(ngModel)]="formPegawai.gaji" type="number">
+                        </div>
+                </div> 
+
+                <div class="p-grid form-group">
+                    <div class="p-grid-12 p-md-6">
+                        <label for="status_pekerjaan">Status Pekerjaan</label>
+                        <p-dropdown [options]="statusPekerjaanOptions" placeholder="Pilih status pekerjaan" id="status_pekerjaan"
+                        name="status_pekerjaan" [(ngModel)]="formPegawai.status_pekerjaan"></p-dropdown>
+                    </div>
+                    <div class="p-grid-12 p-md-6">
+                        <label for="nomor_rekening_bank">Nomor Rekening Bank</label>
+                        <input pInputText id="nomor_rekening_bank" name="nomor_rekening_bank"
+                            [(ngModel)]="formPegawai.nomor_rekening_bank" type="text">
+                    </div>
+                </div>
+                <div class="p-grid p-jc-end p-mt-4 p-mr-3">
+                     <p-button icon="pi pi-save"  label="Simpan" *ngIf="showEdit === false" (onClick)="savePegawai(formPegawai)"></p-button>
+                     <p-button icon="pi pi-save"  label="Ubah" *ngIf="showEdit === true" (onClick)="editPegawai(formPegawai)"></p-button>
+                </div>
+            </form>
+        </div>
+    </div>
+</p-dialog>
